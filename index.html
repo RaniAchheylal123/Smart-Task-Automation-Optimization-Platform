@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Task Automation & Optimization Platform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <svg width="40" height="40" viewBox="0 0 40 40">
+                        <circle cx="20" cy="20" r="18" fill="url(#grad)" />
+                        <path d="M12 20l6 6 10-10" stroke="white" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs>
+                            <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div>
+                        <h1>STAOP</h1>
+                        <p>Smart Automation Platform</p>
+                    </div>
+                </div>
+                <nav class="nav">
+                    <button class="nav-btn active" data-view="dashboard">Dashboard</button>
+                    <button class="nav-btn" data-view="tasks">Tasks</button>
+                    <button class="nav-btn" data-view="automation">Automation</button>
+                    <button class="nav-btn" data-view="analytics">Analytics</button>
+                </nav>
+                <div class="header-actions">
+                    <span class="status-indicator" id="server-status">Connecting...</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Dashboard View -->
+            <div id="dashboard-view" class="view active">
+                <div class="page-header">
+                    <h2>Dashboard Overview</h2>
+                    <p>Real-time insights into your automation performance</p>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 11l3 3 8-8"/>
+                                <path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="total-tasks">0</h3>
+                            <p>Total Tasks</p>
+                            <span class="stat-change positive">+12% this week</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 6v6l4 2"/>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="automated-tasks">0</h3>
+                            <p>Automated Tasks</p>
+                            <span class="stat-change positive">+25% efficiency</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="success-rate">0%</h3>
+                            <p>Success Rate</p>
+                            <span class="stat-change positive">+5.2% improvement</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="1" x2="12" y2="23"/>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="time-saved">0h</h3>
+                            <p>Time Saved</p>
+                            <span class="stat-change positive">+180h this month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts and Activity -->
+                <div class="dashboard-grid">
+                    <div class="card chart-card">
+                        <div class="card-header">
+                            <h3>Task Performance</h3>
+                        </div>
+                        <div id="performance-chart" class="simple-chart"></div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Recent Activity</h3>
+                        </div>
+                        <div class="activity-list" id="activity-list">
+                            <!-- Activity items will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tasks View -->
+            <div id="tasks-view" class="view">
+                <div class="page-header">
+                    <div>
+                        <h2>Task Management</h2>
+                        <p>Create, manage, and track all your tasks</p>
+                    </div>
+                    <button class="btn btn-primary" id="create-task-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        Create Task
+                    </button>
+                </div>
+
+                <!-- Task Filters -->
+                <div class="filters">
+                    <input type="text" id="search-tasks" class="search-input" placeholder="Search tasks...">
+                    <select id="filter-priority" class="select-input">
+                        <option value="all">All Priorities</option>
+                        <option value="high">High Priority</option>
+                        <option value="medium">Medium Priority</option>
+                        <option value="low">Low Priority</option>
+                    </select>
+                    <select id="filter-status" class="select-input">
+                        <option value="all">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+
+                <!-- Tasks Grid -->
+                <div class="tasks-grid" id="tasks-grid">
+                    <!-- Tasks will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Automation View -->
+            <div id="automation-view" class="view">
+                <div class="page-header">
+                    <div>
+                        <h2>Automation Rules</h2>
+                        <p>Configure intelligent automation workflows</p>
+                    </div>
+                    <button class="btn btn-primary" id="create-rule-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        Create Rule
+                    </button>
+                </div>
+
+                <div class="automation-grid" id="automation-grid">
+                    <!-- Automation rules will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Analytics View -->
+            <div id="analytics-view" class="view">
+                <div class="page-header">
+                    <h2>Analytics & Insights</h2>
+                    <p>Data-driven insights for optimization</p>
+                </div>
+
+                <div class="analytics-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Task Distribution</h3>
+                        </div>
+                        <div id="distribution-chart" class="simple-chart"></div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Performance Metrics</h3>
+                        </div>
+                        <div class="metrics-list">
+                            <div class="metric-item">
+                                <span>Average Completion Time</span>
+                                <strong id="avg-completion">Calculating...</strong>
+                            </div>
+                            <div class="metric-item">
+                                <span>Automation Efficiency</span>
+                                <strong id="automation-efficiency">Calculating...</strong>
+                            </div>
+                            <div class="metric-item">
+                                <span>Peak Processing Hours</span>
+                                <strong id="peak-hours">9 AM - 11 AM</strong>
+                            </div>
+                            <div class="metric-item">
+                                <span>System Uptime</span>
+                                <strong id="system-uptime">99.9%</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>AI Insights</h3>
+                        </div>
+                        <div class="insights-list" id="insights-list">
+                            <!-- AI insights will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Create Task Modal -->
+    <div id="task-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Task</h3>
+                <button class="close-modal" data-modal="task-modal">&times;</button>
+            </div>
+            <form id="task-form">
+                <div class="form-group">
+                    <label for="task-title">Task Title</label>
+                    <input type="text" id="task-title" name="title" required class="form-input">
+                </div>
+                <div class="form-group">
+                    <label for="task-description">Description</label>
+                    <textarea id="task-description" name="description" rows="4" class="form-input"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="task-priority">Priority</label>
+                        <select id="task-priority" name="priority" class="form-input">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-category">Category</label>
+                        <select id="task-category" name="category" class="form-input">
+                            <option value="development">Development</option>
+                            <option value="design">Design</option>
+                            <option value="testing">Testing</option>
+                            <option value="deployment">Deployment</option>
+                            <option value="maintenance">Maintenance</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="task-deadline">Deadline</label>
+                        <input type="date" id="task-deadline" name="deadline" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="task-automate" name="automate">
+                            Enable Automation
+                        </label>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary close-modal" data-modal="task-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Create Rule Modal -->
+    <div id="rule-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Automation Rule</h3>
+                <button class="close-modal" data-modal="rule-modal">&times;</button>
+            </div>
+            <form id="rule-form">
+                <div class="form-group">
+                    <label for="rule-name">Rule Name</label>
+                    <input type="text" id="rule-name" name="name" required class="form-input">
+                </div>
+                <div class="form-group">
+                    <label for="rule-trigger">Trigger</label>
+                    <select id="rule-trigger" name="trigger" class="form-input">
+                        <option value="new-task">When new task is created</option>
+                        <option value="priority-change">When priority changes</option>
+                        <option value="deadline-near">When deadline is near</option>
+                        <option value="status-change">When status changes</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="rule-action">Action</label>
+                    <select id="rule-action" name="action" class="form-input">
+                        <option value="assign">Auto-assign task</option>
+                        <option value="notify">Send notification</option>
+                        <option value="prioritize">Auto-prioritize</option>
+                        <option value="categorize">Auto-categorize</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="rule-condition">Condition</label>
+                    <input type="text" id="rule-condition" name="condition" placeholder="e.g., priority = high" class="form-input">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary close-modal" data-modal="rule-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Rule</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>
+
