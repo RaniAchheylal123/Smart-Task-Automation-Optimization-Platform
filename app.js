@@ -1,5 +1,5 @@
 // API Configuration
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'https://task-automation-backend.onrender.com/api';
 
 // State Management
 const state = {
